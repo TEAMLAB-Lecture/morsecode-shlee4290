@@ -268,11 +268,9 @@ def decoding_sentence(morse_sentence):
     morse_words = morse_sentence.split("  ") # 공백 두개를 구분자로 하여 모스코드 문장을 하여 단어로 분리한다
 
     for morse_word in morse_words:
-        english_word = "" # 모스코드로 이루어진 단어를 영어 단어로 변환하여 여기에 저장
-        for morse_character in morse_word.split(): # 모스코드 단어에서 한 문자씩 반복
-            english_word += decoding_character(morse_character) # 모스코드를 알파벳으로 변환하여 저장
-        english_words.append(english_word) # 변환 완료된 영단어를 리스트에 추가
-        
+        english_word = list(map(decoding_character, morse_word.split()))
+        english_words.append("".join(english_word))
+    
     result = " ".join(english_words) # 변환해둔 영단어를 문장으로 만든다
 
     return result
@@ -306,9 +304,7 @@ def encoding_sentence(english_sentence):
     english_words = english_sentence.split()
 
     for english_word in english_words:
-        morse_word = []
-        for alphabet in english_word:
-            morse_word.append(encoding_character(alphabet))
+        morse_word = list(map(encoding_character, list(english_word)))
         morse_words.append(" ".join(morse_word))
     
     result = "  ".join(morse_words)
